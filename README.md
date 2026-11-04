@@ -149,11 +149,12 @@ Open `index.html` in a browser to view the test results.
 
 ```text
 test-QA-demoapp/
+├── gherkin/
+│   └── test-cases.md
 ├── src/
 │   └── test/
 │       └── kotlin/
 │           └── ShoppingCatalogTest.kt
-├── test-cases.md
 ├── build.gradle.kts
 ├── settings.gradle.kts
 ├── gradlew
