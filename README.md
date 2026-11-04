@@ -1,108 +1,139 @@
-# Mobile Appium QA
+# Mobile Appium QA – Sauce Labs Demo App
 
-A small mobile test automation project for the [Sauce Labs My Demo App](https://github.com/saucelabs/my-demo-app-android), created as part of a Mobile QA Engineer technical assignment.
+A mobile UI test automation project created as part of a Mobile QA Engineer technical assignment.
+
+The project demonstrates a basic automated test for the Android version of the [Sauce Labs My Demo App](https://github.com/saucelabs/my-demo-app-android).
 
 ## Project Overview
 
-The project demonstrates a basic automated UI test for an Android application using:
+The project uses:
 
-- Kotlin
-- Appium
-- Appium Java Client
-- UiAutomator2
-- Selenium WebDriver
-- JUnit 5
-- Gradle
+- **Kotlin**
+- **Appium 2**
+- **Appium Java Client**
+- **UiAutomator2**
+- **Selenium WebDriver**
+- **JUnit 5**
+- **Gradle**
 
-The goal is to demonstrate a maintainable test setup, reliable UI interaction, and basic test assertions.
+The focus is on reliable UI interaction, readable test code, and a reproducible local test setup.
 
-## Automated Test
+## Test Scenarios
 
-### Product Catalog
+### Manual Test Scenarios
 
-**Test:** `productsShouldBeDisplayed`
+Manual test scenarios are documented in [`test-cases.md`](test-cases.md).
 
-**Scenario:**
-1. Launch the My Demo App on an Android emulator.
-2. Wait for the product catalog to become available.
-3. Verify that the product **Sauce Labs Backpack** is displayed.
+The scenarios cover shopping cart functionality:
 
-The test uses an explicit wait to reduce the risk of timing-related failures.
+- Add a product to the cart
+- Verify product details
+- Add multiple products
+- Remove a product
+- Continue shopping
+
+### Automated Test
+
+| Test | Description |
+|---|---|
+| `productsShouldBeDisplayed` | Verifies that Sauce Labs Backpack is displayed in the product catalog. |
+
+The test uses an explicit wait to wait for the product to become visible.
 
 ## Prerequisites
 
-- Java 21 (JDK)
-- Android Studio and Android SDK
+The following tools are required:
+
+- Java JDK 21
+- Android Studio
+- Android SDK
 - Android emulator or compatible Android device
 - Node.js and npm
 - Appium 2
 - UiAutomator2 Appium driver
 
-## Setup
+## Environment Setup
 
-### 1. Start the Android emulator
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/mcharvat-cen89008/test-QA-demoapp.git
+cd test-QA-demoapp
+```
+
+### 2. Start an Android emulator
 
 Start an Android emulator from Android Studio.
 
-Verify that the device is connected:
+Verify that the emulator is connected:
 
 ```bash
 adb devices
 ```
 
-### 2. Start Appium
+The test currently uses the device UDID:
 
-Start the Appium server:
+```text
+emulator-5554
+```
+
+If your emulator has a different UDID, update the test configuration accordingly.
+
+### 3. Install the application
+
+Install the Sauce Labs My Demo App on the emulator.
+
+The application is available from the official repository:
+
+[Sauce Labs My Demo App – Android](https://github.com/saucelabs/my-demo-app-android)
+
+The test expects the application to be installed before execution.
+
+### 4. Install Appium
+
+Install Appium 2:
+
+```bash
+npm install -g appium
+```
+
+Install the UiAutomator2 driver:
+
+```bash
+appium driver install uiautomator2
+```
+
+### 5. Start the Appium server
+
+Start Appium in a separate terminal:
 
 ```bash
 appium
 ```
 
-The test expects the server to be available at:
+The test connects to:
 
 ```text
 http://127.0.0.1:4723
 ```
 
-### 3. Run the test
+## Running the Tests
 
-From the project root, execute:
+Run the test suite from the project root.
 
-```bash
-./gradlew test
-```
-
-On Windows:
+### Windows
 
 ```powershell
 .\gradlew.bat test
 ```
 
-## Test Configuration
+### macOS / Linux
 
-The test currently targets the following Android application:
-
-```text
-Package: com.saucelabs.mydemoapp.android
-Activity: com.saucelabs.mydemoapp.android.view.activities.MainActivity
+```bash
+./gradlew test
 ```
 
-The emulator UDID is currently configured as `emulator-5554`.
-
-## Project Structure
-
-```text
-mobile-appium-qa/
-├── src/
-│   └── test/
-│       └── kotlin/
-│           └── ShoppingCatalogTest.kt
-├── build.gradle.kts
-├── settings.gradle.kts
-├── gradlew
-├── gradlew.bat
-└── README.md
-```
+The Gradle Wrapper downloads and uses the configured Gradle version automatically.
 
 ## Test Reports
 
@@ -114,20 +145,47 @@ build/reports/tests/test/
 
 Open `index.html` in a browser to view the test results.
 
-## Approach and Design Decisions
+## Project Structure
+
+```text
+test-QA-demoapp/
+├── src/
+│   └── test/
+│       └── kotlin/
+│           └── ShoppingCatalogTest.kt
+├── test-cases.md
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradlew
+├── gradlew.bat
+├── gradle/
+│   └── wrapper/
+└── README.md
+```
+
+## Design Decisions
 
 - **Kotlin:** concise JVM language with Java interoperability.
-- **Appium:** enables automated interaction with the native Android application.
+- **Appium:** enables native mobile UI automation.
 - **UiAutomator2:** Android automation backend.
-- **Explicit waits:** wait for UI conditions instead of relying on fixed delays.
+- **Explicit waits:** avoid relying on fixed sleep durations.
 - **JUnit 5:** provides test lifecycle management and assertions.
-- **Gradle Wrapper:** allows the project to use a consistent Gradle version without requiring a separate Gradle installation.
+- **Gradle Wrapper:** ensures consistent Gradle execution across environments.
 
-## Scope and Limitations
+## Current Scope and Limitations
 
-This is an initial proof of concept containing one automated UI test.
+This project currently contains one automated UI test and a set of manual Gherkin scenarios.
 
-The current test covers only the product catalog display. Additional scenarios, such as product details, cart functionality, and checkout, could be added in future iterations.
+The automated test covers the initial product catalog only.
+
+Potential future improvements:
+
+- Page Object Model implementation
+- Additional automated shopping cart tests
+- Improved test configuration
+- Screenshot capture on test failure
+- CI execution using GitHub Actions
+- Support for additional Android devices
 
 ## Application Under Test
 
